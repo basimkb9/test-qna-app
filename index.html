@@ -577,12 +577,14 @@ function submitText() {
 
   score++;
 
-  bonusAnswers.push({
-    question: q.text,
-    her: input.value.trim(),
-    mine: q.myAnswer,
-    matched: isMatch
-  });
+  if (q.bonus==true) {
+    bonusAnswers.push({
+      question: q.text,
+      her: input.value.trim(),
+      mine: q.myAnswer,
+      matched: isMatch
+    });
+  }
 
   if (isMatch) {
     playSound('audio-wow');
