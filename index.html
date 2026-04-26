@@ -76,7 +76,10 @@
   .audio-toggle:hover { transform: scale(1.1); border-color: var(--pink); }
 
   /* ── INTRO SCREEN ── */
-  #screen-intro { text-align: center; }
+   #screen-pre-intro { text-align: center; display: flex; }
+   #screen-intro { text-align: center; display: none; }
+   .heart-icon-big { font-size: 4rem; margin-bottom: 2rem; animation: pulse 1.5s infinite; }
+   @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.15); } }
 
   .sparkle-row { font-size: 2rem; margin-bottom: 0.5rem; animation: sparkle 2s ease-in-out infinite; }
   @keyframes sparkle {
@@ -299,16 +302,16 @@
 
 <!-- AUDIO ELEMENTS -->
 <audio id="audio-bg" loop>
-  <source src="../audio/Deadly Premonition - Whistle Theme.mp3" type="audio/mpeg">
+  <source src="audio/Deadly%20Premonition%20-%20Whistle%20Theme.mp3" type="audio/mpeg">
 </audio>
 <audio id="audio-wow">
-  <source src="../audio/wow.mp3" type="audio/mpeg">
+  <source src="audio/wow.mp3" type="audio/mpeg">
 </audio>
 <audio id="audio-aww">
-  <source src="../audio/aww.mp3" type="audio/mpeg">
+  <source src="audio/aww.mp3" type="audio/mpeg">
 </audio>
 <audio id="audio-cheer">
-  <source src="../audio/Kids Cheering.mp3" type="audio/mpeg">
+  <source src="audio/Kids%20Cheering.mp3" type="audio/mpeg">
 </audio>
 
 <!-- AUDIO CONTROL -->
@@ -318,6 +321,12 @@
 
 <!-- CONFETTI CONTAINER -->
 <div class="confetti" id="confetti"></div>
+
+<!-- PRE-INTRO SCREEN -->
+<div class="page" id="screen-pre-intro">
+  <div class="heart-icon-big">💝</div>
+  <button class="btn-start" onclick="begin()">Click to Start ✨</button>
+</div>
 
 <!-- INTRO SCREEN -->
 <div class="page" id="screen-intro">
@@ -379,11 +388,11 @@ const QUESTIONS = [
   {
     type: 'text',
     text: 'Name your fav restaurant/cafe where we ate together.',
-    bonus: true,
+    bonus: false,
     bonusMsg: "You'll get an extra smol gift if our answers match 👀",
     myAnswer: "Karim's Cafe",
     keywords: ["karim", "karim's", "karims"],
-    feedback_match: "YESSS it's Karim's Cafe for me too!! 🥳 Extra gift incoming!!",
+    feedback_match: "YESSS it's Karim's Cafe for me too!! 🥳 ",
     feedback_nomatch: "Aww different answers! Mine was Karim's Cafe, a rainy afternoon and sharing karahi with bubu!"
   },
   {
@@ -407,7 +416,7 @@ const QUESTIONS = [
     bonusMsg: "You'll get a Valo skin if our answers match hehe 🎮",
     myAnswer: 'When we visited Hotpot/Hotspot cafe, walked together, kissed at the Haunted Hill park.',
     keywords: ['hotpot', 'hotspot', 'haunted', 'hill', 'kissed', 'rain', 'raining', 'park'],
-    matchThreshold: 2,
+    matchThreshold: 1,
     feedback_match: "YES that day was sooo good! 🥹 Hotspot, the walk, the haunted hill... I think about it all the time. Valo skin incoming fr!!",
     feedback_nomatch: "Mine was: When we visited Hotspot/Hotpot cafe, walked together, took pics, and kissed at the Haunted Hill park 🌸 That day was so special"
   }
@@ -427,10 +436,10 @@ function initAudio() {
   const cheer = document.getElementById('audio-cheer');
 
   // Set initial volumes
-  bg.volume = 0.65;
-  wow.volume = 0.5;
-  aww.volume = 0.5;
-  cheer.volume = 0.5;
+  bg.volume = 0.2;
+  wow.volume = 0.2;
+  aww.volume = 0.2;
+  cheer.volume = 0.2;
 
   bg.play().then(() => {
     isMusicPlaying = true;
@@ -458,6 +467,17 @@ function toggleMusic() {
   }
   updateAudioIcon();
 }
+
+ function begin() {
+   const bg = document.getElementById('audio-bg');
+   bg.play().then(() => {
+     isMusicPlaying = true;
+     updateAudioIcon();
+   }).catch(e => console.log("Audio play failed:", e));
+
+   document.getElementById('screen-pre-intro').style.display = 'none';
+   document.getElementById('screen-intro').style.display = 'flex';
+ }
 
 function playSound(id) {
   const s = document.getElementById(id);
